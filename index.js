@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
-const router = express.Router();
+
 var bodyParser = require("body-parser");
+
+const Product = require("./models/productModel");
 
 const cors = require("cors");
 const connectDb = require("./config/dbConnect");
@@ -27,8 +29,9 @@ app.get("/profile", isLoggedIn, (req, res) => {
   console.log(req.body);
   res.send("Profile Route is Working");
 });
-
 app.post("/api/v1/product", (req, res, next) => {
+  const product = new Product(req.body);
+  product.save();
   res.send("Working");
 });
 

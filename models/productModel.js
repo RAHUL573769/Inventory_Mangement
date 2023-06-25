@@ -22,11 +22,11 @@ const productSchema = mongoose.Schema(
     },
     unit: {
       type: String,
-      required: true,
-      enum: {
-        value: ["Kg", "liter", "pieces"],
-        message: "Unit Must be kg "
-      }
+      required: true
+      //   enum: {
+      //     value: ["Kg", "liter", "pieces"],
+      //     message: "Unit Must be kg "
+      //   }
     },
     quantity: {
       type: Number,
@@ -45,11 +45,11 @@ const productSchema = mongoose.Schema(
       }
     },
     status: {
-      type: String,
-      enum: {
-        value: ["instock", "out stock"],
-        message: "Staus cannot be "
-      }
+      type: String
+      //   enum: {
+      //     value: ["instock", "out stock"],
+      //     message: "Staus cannot be "
+      //   }
     },
     supplier: {
       type: mongoose.Schema.Types.ObjectId,
