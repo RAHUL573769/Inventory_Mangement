@@ -4,6 +4,8 @@ const router = express.Router();
 var bodyParser = require("body-parser");
 
 const cors = require("cors");
+const connectDb = require("./config/dbConnect");
+const { PORT } = require("./secret");
 require("dotenv").config();
 
 app.use(cors());
@@ -26,7 +28,14 @@ app.get("/profile", isLoggedIn, (req, res) => {
   res.send("Profile Route is Working");
 });
 
+app.post("/api/v1/product", (req, res, next) => {
+  res.send("Working");
+});
+
 app.get("/", (req, res) => {
   res.send("Route is Working");
 });
-module.exports = app;
+app.listen(PORT, async (req, res) => {
+  console.log(`Server is Running at ${PORT}`);
+  await connectDb();
+});
