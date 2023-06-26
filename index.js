@@ -45,6 +45,25 @@ app.post("/api/v1/product", async (req, res, next) => {
   }
 });
 
+app.get("/api/v1/product", async (req, res, next) => {
+  try {
+    const product = await Product.find({});
+
+    res.status(202).json({
+      message: "Data  found",
+      data: product,
+
+      status: "success"
+    });
+  } catch (error) {
+    res.status(404).json({
+      message: "Data not found",
+      error: error.message,
+      status: " fail"
+    });
+  }
+});
+
 app.get("/", (req, res) => {
   res.send("Route is Working");
 });
