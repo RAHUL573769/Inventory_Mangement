@@ -37,7 +37,11 @@ app.post("/api/v1/product", async (req, res, next) => {
     await product.save();
     res.send(product);
   } catch (error) {
-    console.log(error);
+    res.status(400).json({
+      message: "Data not inserted",
+      error: error.message,
+      status: "fail"
+    });
   }
 });
 
