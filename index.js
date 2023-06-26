@@ -46,8 +46,10 @@ app.post("/api/v1/product", async (req, res, next) => {
 });
 
 app.get("/api/v1/product", async (req, res, next) => {
+  const query = req.query.name;
+  console.log(req.query.name);
   try {
-    const product = await Product.find({});
+    const product = await Product.findOne({ name: query });
 
     res.status(202).json({
       message: "Data  found",
