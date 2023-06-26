@@ -11,6 +11,7 @@ const { PORT } = require("./secret");
 require("dotenv").config();
 
 app.use(cors());
+console.log(Product.pro);
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -25,14 +26,19 @@ const isLoggedIn = (req, res, next) => {
   }
   next();
 };
+
 app.get("/profile", isLoggedIn, (req, res) => {
   console.log(req.body);
   res.send("Profile Route is Working");
 });
-app.post("/api/v1/product", (req, res, next) => {
-  const product = new Product(req.body);
-  product.save();
-  res.send("Working");
+app.post("/api/v1/product", async (req, res, next) => {
+  try {
+    const product = new Product(req.body);
+    await product.save();
+    res.send(product);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.get("/", (req, res) => {
