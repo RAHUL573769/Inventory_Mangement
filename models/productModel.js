@@ -1,72 +1,74 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
+
 //schema Design
 
 const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please Give a Name"],
+      required: [true, "Please provide a name for this product."],
       trim: true,
-      unique: [true, "Name Must be Unique"],
-      minLength: [3, "Name must be 3 characters"],
-      maxLength: [100, "Name is Too Large"]
+      unique: [true, "Name must be unique"],
+      lowercase: true,
+      minLength: [3, "Name must be at least 3 characters."],
+      maxLenght: [100, "Name is too large"]
     },
     description: {
       type: String,
       required: true
     },
-    price: {
-      type: Number,
-      required: true,
-      min: [0, "Price Cannot be negative"]
-    },
+
     unit: {
       type: String,
-      required: true
-      //   enum: {
-      //     value: ["Kg", "liter", "pieces"],
-      //     message: "Unit Must be kg "
-      //   }
-    },
-    quantity: {
-      type: Number,
       required: true,
-      min: [0, "quantity cannot be negative"],
-      validate: {
-        validator: (value) => {
-          const isInteger = Number.isInteger(value);
-          if (isInteger) {
-            return true;
-          } else {
-            return false;
-          }
-        },
-        message: "Quantity must be an integer"
+      enum: {
+        values: ["kg", "litre", "pcs", "bag"],
+        message: "unit value can't be {VALUE}, must be kg/litre/pcs/bag"
       }
     },
-    status: {
-      type: String
-      //   enum: {
-      //     value: ["instock", "out stock"],
-      //     message: "Staus cannot be "
-      //   }
-    },
-    supplier: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Suppiler"
-    },
-    categories: [
+
+    imageURLs: [
       {
-        name: {
-          type: String,
-          required: true
-        },
-        _id: mongoose.Schema.Types.ObjectId
+        type: String,
+        required: true,
+        validate: {
+          validator: (value) => {
+            if (!Array.isArray(value)) {
+              return false;
+            }
+            let isValid = true;
+            value.forEach((url) => {
+              if (!validator.isURL(url)) {
+                isValid = false;
+              }
+            });
+            return isValid;
+          },
+          message: "Please provide valid image urls"
+        }
       }
-    ]
+    ],
+
+    category: {
+      type: String,
+      required: true
+    },
+
+    brand: {
+      name: {
+        type: String,
+        required: true
+      },
+      id: {
+        type: ObjectId,
+        ref: "Brand",
+        required: true
+      }
+    }
   },
   {
-    timeStamps: true
+    timestamps: true
   }
 );
 
