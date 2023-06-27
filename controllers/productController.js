@@ -32,5 +32,43 @@ const getProduct = async (req, res, next) => {
     });
   }
 };
+const updateSpecificProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(req.body);
+    const update = await Product.updateOne(
+      { _id: id },
+      { $set: req.body },
+      { runValidators: true }
+    );
+    res.send(update);
+  } catch (error) {
+    res.json({
+      message: "Update Failed",
+      status: "failed",
+      error: error.message
+    });
+  }
+};
 
-module.exports = { postProduct, getProduct };
+const bulkUpdate = async (req, res) => {
+  try {
+    const query = req.body;
+    const updateData = await Product.updateMany(
+      { _id: query.ids },
+      { $set: query.data },
+      {
+        runValidators: true
+      }
+    );
+    res.send(updateData);
+  } catch (error) {
+    res.json({
+      message: "Bulk Update Failed",
+      status: "Failed",
+      error: error.message
+    });
+  }
+};
+
+module.exports = { postProduct, getProduct, updateSpecificProduct, bulkUpdate };
