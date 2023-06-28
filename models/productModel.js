@@ -6,7 +6,7 @@ const productSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Please provide a name for this product."],
+      // required: [true, "Please provide a name for this product."],
       trim: true,
       unique: [true, "Name must be unique"],
       minLength: [3, "Name must be at least 3 characters."],
@@ -18,12 +18,12 @@ const productSchema = mongoose.Schema(
     },
     price: {
       type: Number,
-      required: true,
+      // required: true,
       min: [0, "Price can't be negative"]
     },
     unit: {
       type: String,
-      required: true,
+      // required: true,
       enum: {
         values: ["kg", "litre", "pcs"],
         message: "unit value can't be {VALUE}, must be kg/litre/pcs"
@@ -31,7 +31,7 @@ const productSchema = mongoose.Schema(
     },
     quantity: {
       type: Number,
-      required: true,
+      // required: true,
       min: [0, "quantity cant be negative"],
       validate: {
         validator: (value) => {
@@ -47,7 +47,8 @@ const productSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      required: true,
+      // required: true,
+      // required: true,
       enum: {
         values: ["in-stock", "out-of-stock", "discontinued"],
         message: "status can't be {VALUE}"

@@ -1,9 +1,10 @@
 const express = require("express");
 const Product = require("../models/productModel");
-const postProduct = async (req, res, next) => {
+const postProduct = async (req, res) => {
+  console.log(req.body);
   try {
-    const product = new Product(req.body);
-    await product.save();
+    const product = Product.create(req.body);
+    // await product.save();
     res.send(product);
   } catch (error) {
     res.status(400).json({
