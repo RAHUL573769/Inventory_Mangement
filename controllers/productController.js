@@ -15,16 +15,23 @@ const postProduct = async (req, res) => {
 };
 
 const getProduct = async (req, res) => {
-  console.log(req.query.status);
-
+  // console.log(req.query.status);
+  console.log(req.query.sort);
+  const sortQuery = {};
   try {
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(",").join(" ");
+      sortQuery.sortBy = sortBy;
+    }
     const queryObject = { ...req.query };
     const query = req.query.status;
-    const product = await Product.find({ status: query });
     const excludeFields = ["sort", "page", "limit"];
     excludeFields.forEach((field) => delete queryObject[field]);
     console.log("original-object", req.query);
     console.log(queryObject);
+    // const product = await Product.find(queryObject);
+    const product = await Product.find({}).sort(sortQuery.sortBy);
+
     res.status(202).json({
       message: "Data  found",
       data: product,
