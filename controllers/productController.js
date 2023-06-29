@@ -29,9 +29,13 @@ const getProduct = async (req, res) => {
     excludeFields.forEach((field) => delete queryObject[field]);
     console.log("original-object", req.query);
     console.log(queryObject);
-    // const product = await Product.find(queryObject);
-    const product = await Product.find({}).sort(sortQuery.sortBy);
 
+    console.log(req.query);
+    const filterString = JSON.stringify(req.query);
+    console.log(filterString);
+    // const product = await Product.find(queryObject);
+    // const product = await Product.find({}).sort(sortQuery.sortBy);
+    const product = await Product.find(filter);
     res.status(202).json({
       message: "Data  found",
       data: product,
