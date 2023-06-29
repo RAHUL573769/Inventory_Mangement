@@ -1,7 +1,6 @@
 const express = require("express");
 const Product = require("../models/productModel");
 const postProduct = async (req, res) => {
-  console.log(req.body);
   try {
     const product = Product.create(req.body);
     // await product.save();
@@ -15,10 +14,17 @@ const postProduct = async (req, res) => {
   }
 };
 
-const getProduct = async (req, res, next) => {
-  try {
-    const product = await Product.find({});
+const getProduct = async (req, res) => {
+  console.log(req.query.status);
 
+  try {
+    const queryObject = { ...req.query };
+    const query = req.query.status;
+    const product = await Product.find({ status: query });
+    const excludeFields = ["sort", "page", "limit"];
+    excludeFields.forEach((field) => delete queryObject[field]);
+    console.log("original-object", req.query);
+    console.log(queryObject);
     res.status(202).json({
       message: "Data  found",
       data: product,
